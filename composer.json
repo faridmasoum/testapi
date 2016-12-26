@@ -1,9 +1,9 @@
 {
-        "name": "kavenegar/php",
+        "name": "faridmasoum/testapi",
         "type": "library",
         "description": "RMI Shopify importer api library",
         "keywords": ["rmi", "shopify", "api"],
-        "homepage": "https://github.com/dkhazai/B2C-Shopify-Importer",
+        "homepage": "https://github.com/faridmasoum/testapi",
         "license": "MIT",
         "authors": [
                 {
