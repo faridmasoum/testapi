@@ -1,0 +1,28 @@
+{
+        "name": "kavenegar/php",
+        "type": "library",
+        "description": "RMI Shopify importer api library",
+        "keywords": ["rmi", "shopify", "api"],
+        "homepage": "https://github.com/dkhazai/B2C-Shopify-Importer",
+        "license": "MIT",
+        "authors": [
+                {
+                        "name": "RMI B2C group",
+                        "email": "faridm@rminno.com"
+                }
+        ],
+        "require": {
+                "php": ">=5.4.0",
+                "curl/curl": "^1.5", // curl for php
+                "m1/env": "2.1.0"  // env for php
+        },
+        "require-dev": {
+
+        },
+        "autoload": {
+                "psr-4": {
+                        "RMIDatalink\\": "src/RMIDatalink"
+                }
+        },
+        "minimum-stability" : "stable"
+}
