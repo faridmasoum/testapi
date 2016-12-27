@@ -20,5 +20,5 @@
                         "RMIDatalink\\": "src/RMIDatalink"
                 }
         },
-        "minimum-stability" : "stable"
+        "minimum-stability" : "dev"
 }
