@@ -13,8 +13,7 @@
         ],
         "require": {
                 "php": ">=5.4.0",
-                "curl/curl": "^1.5",
-                "m1/env": "2.1.0"
+                "curl/curl": "^1.5"
         },
         "require-dev": {
 
