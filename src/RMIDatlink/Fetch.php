@@ -1,40 +1,54 @@
 <?php
 namespace RMIDatalink;
 
-use RMIDatalink\Response;
+use Enums;
 
 class Fetch
 {
-    protected $apiKey;
-    const APIPATH = "http://api.rmdatalink.com/v1/%s/%s/%s.json/"; http://rmib2b.com:3011/api/v1/%s.json
-
+    protected $responseType;
+    protected $apiPath;
+    private $apiKey;
 
     // get api key onload
-    public function __construct($apiKey)
+    public function __construct($apiKey, $responseType=ResponseTypes::Json, $apiPath="http://rmib2b.com:8100/api/%s/%s")
     {
         // check Curl is installed on the server
         if (!extension_loaded('curl')) {
-
-            $response = ["Error" => "Error: cURL library is not loaded"];
-            header('Content-Type: application/json');
-            echo json_encode($response);
-
-            return
-
+            // return
+            customError('cURL library is not loaded');
         }
 
         // check api key is set as parameter on new object
         if (is_null($apiKey)) {
-            die('apiKey is empty');
-            exit;
+            customError('apiKey is empty');
+        }
+
+        // response type
+        if($this->responseType == ResponseTypes::Json) {
+            header('Content-Type: application/json');
         }
 
         $this->apiKey = $apiKey;
     }
 
-    private function getPath($method, $base = 'sms')
+
+    // API > Generate path of API
+    private function getPath($route, $base = 'v1')
     {
-        return sprintf(self::APIPATH, $this->apiKey, $base, $method);
+        return sprintf($this->apiPath, $base, $route);
+    }
+
+    // Result > response result
+    private static function result($data)
+    {
+            return json_encode($data);
+    }
+
+    // Result > response error
+    private static function customError($detail)
+    {
+            echo json_encode(["Error" => $detail]);
+            exit;
     }
 
 }
