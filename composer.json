@@ -18,7 +18,7 @@
         },
         "autoload": {
                 "psr-4": {
-                        "RMIDatalink\\": "src/RMIDatalink"
+                        "RMIDatalink\\": "src"
                 }
         },
         "minimum-stability": "stable"

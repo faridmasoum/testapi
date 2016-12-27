@@ -8,11 +8,6 @@ use Curl;
 class Buckets extends Fetch
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function bucketName()
     {
         $curl = new Curl();
