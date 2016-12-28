@@ -24,13 +24,8 @@ Usage
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-try{
- 
-}
-catch(\RMIDatalink\Exceptions\ApiException $e){
- 
-}
-catch(\RMIDatalink\Exceptions\HttpException $e){
- 
-}
+$api = new RMIDatalink\Fetch("{API ACCESS KEY}");
+echo "First Bucket: ". $api->bucketNames()[0];
+
+
  
