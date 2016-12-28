@@ -1,14 +1,14 @@
 <?php
 namespace RMIDatalink;
 
-use RMIDatlink\Enums;
-use RMIDatlink\Exceptions;
+use RMIDatalink\Enums\ResponseTypes;
+use RMIDatalink\Exceptions\BaseRuntimeException;
 
-class Fetch
+class Fetch extends Buckets
 {
     protected $responseType;
     protected $apiPath;
-    private $apiKey;
+    protected $apiKey;
 
     // get api key onload
     public function __construct($apiKey, $responseType=ResponseTypes::Json, $apiPath="http://rmib2b.com:8100/api/%s/%s")
@@ -30,26 +30,30 @@ class Fetch
         }
 
         $this->apiKey = $apiKey;
+        $this->apiPath = $apiPath;
+        $this->responseType = $responseType;
     }
 
 
     // API > Generate path of API
-    private function getPath($route, $base = 'v1')
+    protected function getPath($route, $base = 'v1')
     {
         return sprintf($this->apiPath, $base, $route);
     }
 
     // Result > response result
-    private static function result($data)
+    protected static function result($data)
     {
             return json_encode($data);
     }
 
     // Result > response error
-    private static function customError($detail)
+    protected static function customError($detail)
     {
             echo json_encode(["Error" => $detail]);
             exit;
     }
+
+
 
 }

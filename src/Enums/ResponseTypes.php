@@ -1,8 +1,8 @@
 <?php
-namespace RMIDatlink\Enums;
+namespace RMIDatalink\Enums;
 
 abstract class ResponseTypes {
-    const Json = "json";
+    const  Json = "json";
     //0const Xml = "xml";
 
 

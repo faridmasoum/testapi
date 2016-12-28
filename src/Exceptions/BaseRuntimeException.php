@@ -1,5 +1,5 @@
 <?php
-namespace RMIDatlink\Exceptions;
+namespace RMIDatalink\Exceptions;
 
 use RMIDatalink\Enums;
 

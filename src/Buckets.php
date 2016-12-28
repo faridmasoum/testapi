@@ -1,19 +1,23 @@
 <?php
 namespace RMIDatalink;
 
-use Fetch;
-use RMIDatalink\Enums;
-use Curl;
+use Curl\Curl;
 
-class Buckets extends Fetch
-{
+class Buckets {
 
-    public function bucketName()
+    public function bucketNames()
     {
         $curl = new Curl();
-        $path = getPath("buckets.{$this->$responseType}");
-        $result = json_decode($curl->get($path), true);
-        return $result['data']['title'];
-    }
+        $path = $this->getPath("buckets.{$this->responseType}");
+        $curl->setHeader('api_key', $this->apiKey);
+        $curl->get($path);
+        $result = json_decode($curl->response , true);
+        $curl->close();
+        foreach ($result['data'] as $bucket) {
+            $bucketNames[]=$bucket['title'];
+        }
 
+        return $bucketNames;
+
+    }
 }
