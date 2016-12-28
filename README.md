@@ -20,6 +20,9 @@ Basic setup
 Configuration
 -----
 Usage
+
+Create an index.php file in root folder of project and insert these code on it.
+
 -----
 ```php
 require __DIR__ . '/vendor/autoload.php';
