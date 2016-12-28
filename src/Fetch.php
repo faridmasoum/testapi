@@ -1,7 +1,8 @@
 <?php
 namespace RMIDatalink;
 
-use Enums;
+use RMIDatlink\Enums;
+use RMIDatlink\Exceptions;
 
 class Fetch
 {

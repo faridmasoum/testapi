@@ -2,7 +2,7 @@
 namespace RMIDatalink;
 
 use Fetch;
-use Enums;
+use RMIDatalink\Enums;
 use Curl;
 
 class Buckets extends Fetch
