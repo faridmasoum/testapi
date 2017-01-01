@@ -32,7 +32,7 @@ use RMIDatalink\Enums\ResponseTypes;
 
 
 
-$apiObject = new Fetch("jPlnuhoJos74Cf1JuMeK+Rke11oJX92WkaceSb5ScMGkjJqwNfOnmLGl6Zd+n3e7",ResponseTypes::Json);
+$apiObject = new Fetch("{ DATALINK TOKEN }",ResponseTypes::Json);
 
 // Set Bucket ID
 $apiObject->setBucketId($apiObject->buckets()[0]->id);
