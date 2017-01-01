@@ -1,7 +1,7 @@
 {
         "name": "faridmasoum/testapi",
         "type": "library",
-        "version": "2.0.5",
+        "version": "2.0.7",
         "description": "RMI Shopify importer api library",
         "keywords": ["rmi", "shopify", "api"],
         "homepage": "https://github.com/faridmasoum/testapi",
