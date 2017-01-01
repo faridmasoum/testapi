@@ -2,8 +2,7 @@
 namespace RMIDatalink\Enums;
 
 abstract class ResponseTypes {
+
+    const  Text = "xml";
     const  Json = "json";
-    //0const Xml = "xml";
-
-
 }
