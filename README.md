@@ -41,8 +41,11 @@ $apiObject->setBucketId($apiObject->buckets()[0]->id);
 $fields = ['id', 'title', 'images', 'additionalImages'];
 
 
+// get all products
+$products = $apiObject->products(0, $fields);
+
 // loop on all products > products(offset, fields, limit)
-foreach($apiObject->products(0, $fields) as $product)
+foreach($products as $product)
 {
 	echo "<br><h1>Product:</h1><br>";
 
