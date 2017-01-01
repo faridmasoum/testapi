@@ -42,9 +42,10 @@ $fields = ['id', 'title', 'images', 'additionalImages'];
 
 
 // get all products
+// loop on all products > products(offset, fields, limit)
 $products = $apiObject->products(0, $fields);
 
-// loop on all products > products(offset, fields, limit)
+
 foreach($products as $product)
 {
 	echo "<br><h1>Product:</h1><br>";
