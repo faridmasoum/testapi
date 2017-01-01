@@ -55,10 +55,10 @@ foreach($products as $product)
 	{
 		if(is_object($product->$field))
 		{
-			// loop on indexes of array
+			// loop on object
 			foreach($product->$field as $attributes)
 			{
-				// if the field contains array
+				// if the field contains nested object
 
 				//current field Name
 				echo "<strong>Object Field: $field </strong><br>";
