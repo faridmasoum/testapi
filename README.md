@@ -31,7 +31,7 @@ use RMIDatalink\Enums\ResponseTypes;
 
 
 
-$apiObject = new Fetch("pURMAdy+jRS/oYgUFftSshy5n00CIMhdfw8nK7gQ+0VvA2oxvQTaj4+JIZAjm2O0",ResponseTypes::Json);
+$apiObject = new Fetch("{ TOKEN }",ResponseTypes::Json);
 
 // Set Bucket ID
 $apiObject->setBucketId($apiObject->buckets()[0]->id);
