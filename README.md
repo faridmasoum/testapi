@@ -31,8 +31,7 @@ use RMIDatalink\Enums\ResponseTypes;
 
 
 
-
-$apiObject = new Fetch("{ DATALINK TOKEN }",ResponseTypes::Json);
+$apiObject = new Fetch("pURMAdy+jRS/oYgUFftSshy5n00CIMhdfw8nK7gQ+0VvA2oxvQTaj4+JIZAjm2O0",ResponseTypes::Json);
 
 // Set Bucket ID
 $apiObject->setBucketId($apiObject->buckets()[0]->id);
@@ -40,46 +39,36 @@ $apiObject->setBucketId($apiObject->buckets()[0]->id);
 // required fields
 $fields = ['id', 'title', 'images', 'additionalImages'];
 
-
 // get all products
-// loop on all products > products(offset, fields, limit)
 $products = $apiObject->products(0, $fields);
 
-
+// loop on all products > products(offset, fields, limit)
 foreach($products as $product)
 {
 	echo "<br><h1>Product:</h1><br>";
 
-	// loop on required fields
-	foreach ($fields as $field)
-	{
-		if(is_object($product->$field))
-		{
-			// loop on object
-			foreach($product->$field as $attributes)
-			{
-				// if the field contains nested object
+	echo $product['id']."<br>";
+	echo $product['title']."<br>";
 
-				//current field Name
-				echo "<strong>Object Field: $field </strong><br>";
-				foreach($attributes as $FieldName => $FieldValue)
-				{
-					echo "$FieldName: $FieldValue";
-					echo "<br>";
-				}
-				echo "<br>";
-			}
-
-		}
-		else
+	foreach($product['images'] as $image) {
+		echo "<br>";
+		foreach($image as $imageKey=>$imageValue)
 		{
-			echo "<strong>String Field: $field </strong><br>";
-			echo "{$product->$field} <br><br>";
+			echo "<br>$imageKey:$imageValue";
 		}
 
 	}
 
-	 echo "----------------------Next Product---------------------";
+	foreach($product['additionalImages'] as $image) {
+		echo "<br>";
+		foreach($image as $additionalImageKey=>$additionalImageValue)
+		{
+		    echo "<br>$additionalImageKey:$additionalImageValue";
+		}
+
+	}
+
+	 echo "<br>----------------------Next Product---------------------";
 
 }
 

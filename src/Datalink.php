@@ -107,10 +107,10 @@ class Datalink
                 if(is_array($product[$fieldList]))
                 {
                     $productArrayTmp = [];
-                    foreach ($product[$fieldList] as $productDetailArray) {
-                        $productArrayTmp[] = (object)$productDetailArray;
+                    foreach ($product[$fieldList] as $productDetailKey => $productDetailValue) {
+                        $productArrayTmp[$productDetailKey] = $productDetailValue;
                     }
-                    $productTmp[$fieldList] = (object)$productArrayTmp;
+                    $productTmp[$fieldList] = $productArrayTmp;
                 }
                 else
                 {
@@ -119,7 +119,7 @@ class Datalink
 
 
             }
-            $products[] = (object)$productTmp;
+            $products[] = $productTmp;
             $i++;
         }
 
@@ -131,6 +131,7 @@ class Datalink
 
     public function productPackage()
     {
+
 
     }
 
