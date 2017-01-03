@@ -46,9 +46,25 @@ class Fetch extends Datalink // extends Buckets
         if(isset($result) === false)
             return self::customError('Could not access to Datalink, Please check your connection ');
         elseif(array_key_exists('status', $result) && $result['status'] == '500'){
-            return self::customError('Could not access Datalink, this may be due to wrong Token access or blocked ip address');
+            return self::customError($result['message']);
         }
 
+        parent::__construct();
+
+    }
+
+    protected function doCurl($route)
+    {
+
+        $curl = new Curl();
+        $responseType = self::$responseType;
+        $path = $this->getPath($route);
+        $curl->setHeader('api_key', $this->apiKey);
+        $curl->get($path);
+        $result = json_decode($curl->response , true);
+        $curl->close();
+
+        return $result;
     }
 
     // API > Generate path of API

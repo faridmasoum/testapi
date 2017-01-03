@@ -2,22 +2,22 @@
 namespace RMIDatalink;
 
 use Curl\Curl;
-use RMIDatalink\Fetch;
 
 class Datalink
 {
     public static $bucketId;
+    protected static $classListMap;
+
+    function __construct()
+    {
+        // constructor
+    }
+
 
     public function buckets($fieldsList=[])
     {
-        $curl = new Curl();
-        $responseType = Fetch::$responseType;
-        $route = "buckets.{$responseType}";
-        $path = $this->getPath($route);
-        $curl->setHeader('api_key', $this->apiKey);
-        $curl->get($path);
-        $result = json_decode($curl->response , true);
-        $curl->close();
+        $route = "buckets.{$this->$responseType}";
+        $result = $this->doCurl($route);
 
         $i=0;
         $buckets=[];
@@ -41,14 +41,9 @@ class Datalink
 
     public function classes($offset=0, $fieldsList=[], $limit=30)
     {
-        $curl = new Curl();
-        $bucketId = self::$bucketId;
-        $route = "buckets/{$bucketId}/classes.json?limit=$limit&skip=$offset";
-        $path = $this->getPath($route);
-        $curl->setHeader('api_key', $this->apiKey);
-        $curl->get($path);
-        $result = json_decode($curl->response , true);
-        $curl->close();
+
+        $route = "buckets/{$this->$responseType}/classes.json";
+        $result = $this->doCurl($route);
 
         $i=0;
         $classes=[];
@@ -84,16 +79,10 @@ class Datalink
 
     public function products($offset=0, $fieldsList=[] , $limit=50)
     {
-        if(empty(self::$bucketId)) return Fetch::customError('Bucket-ID is not defined');
+        if(empty(self::$bucketId)) return $this->customError('Bucket-ID is not defined');
 
-        $curl = new Curl();
-        $bucketId = self::$bucketId;
-        $route = "buckets/{$bucketId}/products.json?limit=$limit&skip=$offset";
-        $path = $this->getPath($route);
-        $curl->setHeader('api_key', $this->apiKey);
-        $curl->get($path);
-        $result = json_decode($curl->response , true);
-        $curl->close();
+        $route = "buckets/{$this->$responseType}/products.json?limit=$limit&skip=$offset";
+        $result = $this->doCurl($route);
 
         $i=0;
         $products=[];
