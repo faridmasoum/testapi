@@ -5,69 +5,119 @@ use Curl\Curl;
 
 class Datalink
 {
-    public static $bucketId;
-    protected static $classListMap;
+    protected static $bucketList=[];
+    protected static $classList=[];
 
-    function __construct()
+    protected static $bucketId;
+    public static $bucketName;
+
+    function __construct($bucketName)
     {
-        // constructor
+        self::$bucketList = $this->getBuckets();
+        self::$bucketId = $this->setBucketId($bucketName);
+
+        self::$classList = $this->getClasses();
     }
 
 
-    public function buckets($fieldsList=[])
+    private function buckets($offset=0, $fieldsList=[], $limit=30)
     {
-        $route = "buckets.{$this->$responseType}";
+        $route = 'buckets.%RESPONSE%'."?limit=$limit&skip=$offset";;
         $result = $this->doCurl($route);
 
-        $i=0;
-        $buckets=[];
-        if(count($fieldsList) == 0) $fieldsList = ['id', 'title'];
+        $count = $result["metadata"]["count"];
+
+        $i = 0;
+        $buckets = [];
+        if (count($fieldsList) == 0) $fieldsList = ['id', 'title'];
 
         foreach ($result['data'] as $bucket) {
-            $bucketTmp=[];
+            $bucketTmp = [];
 
             foreach ($fieldsList as $fieldList) {
-                $bucketTmp[$fieldList]=$bucket[$fieldList];
+                $bucketTmp[$fieldList] = $bucket[$fieldList];
             }
 
-            $buckets[] = (object)$bucketTmp;
+            $buckets[] = $bucketTmp;
 
             $i++;
         }
-        $result = $buckets;
 
-        return $result;
+        return ["count" =>  $count, "result" => $buckets];
     }
 
-    public function classes($offset=0, $fieldsList=[], $limit=30)
+    public function getBuckets()
     {
+        $limit=50;
+        $offset=0;
+        $response = [];
+        do {
+            $results = $this->buckets($offset);
+            foreach($results["result"] as $result) {
+                $response[] = $result;
+            }
+            $offset=+$limit;
+            $count=$results["count"];
+        } while($count>0);
 
-        $route = "buckets/{$this->$responseType}/classes.json";
+        return $response;
+    }
+
+
+
+    private function classes($offset=0, $fieldsList=[], $limit=30)
+    {
+        $route = 'buckets/%BUCKET-ID%/classes.%RESPONSE%'."?limit=$limit&skip=$offset";;
         $result = $this->doCurl($route);
+
+        $count = $result["metadata"]["count"];
 
         $i=0;
         $classes=[];
         if(count($fieldsList) == 0) $fieldsList = ['id', 'class'];
         foreach ($result['data'] as $class) {
-            $bucketTmp=[];
+            $classTmp=[];
 
             foreach ($fieldsList as $fieldList) {
-                $bucketTmp[$fieldList]=$class[$fieldList];
+                $classTmp[$fieldList] = $class[$fieldList];
             }
 
-            $classes[] = (object)$bucketTmp;
+            $classes[] = $classTmp;
 
             $i++;
         }
-        $result = $classes;
 
-        return $result;
+        return ["count" =>  $count, "result" => $classes];
     }
 
-    // API > set bucket id
-    public function setBucketId($bucketID)
+    public function getClasses($offset=0, $fieldsList=[], $limit=30)
     {
-        self::$bucketId = $bucketID;
+        $limit=50;
+        $offset=0;
+        $response = [];
+        do {
+            $results = $this->classes($offset);
+            foreach($results["result"] as $result) {
+                $response[] = $result;
+            }
+            $offset=+$limit;
+            $count=$results["count"];
+        } while($count>0);
+
+        return $response;
+    }
+
+
+    // API > set bucket id
+    public function setBucketId($bucketName)
+    {
+        $bucketId = "";
+        foreach (self::$bucketList as $bucket) {
+            $bucketTitle = $bucket['title'];
+            if($bucketName == $bucketTitle)
+                $bucketId = $bucket['id'];
+        }
+        return $bucketId;
     }
 
     // API > set bucket id
@@ -77,11 +127,9 @@ class Datalink
     }
 
 
-    public function products($offset=0, $fieldsList=[] , $limit=50)
+    public function configurableProducts($offset=0, $fieldsList=[] , $limit=50)
     {
-        if(empty(self::$bucketId)) return $this->customError('Bucket-ID is not defined');
-
-        $route = "buckets/{$this->$responseType}/products.json?limit=$limit&skip=$offset";
+        $route = 'buckets/%BUCKET-ID%/products.%RESPONSE%'."?limit=$limit&skip=$offset";
         $result = $this->doCurl($route);
 
         $i=0;
@@ -93,21 +141,19 @@ class Datalink
 
             foreach ($fieldsList as $fieldList) {
 
-                if(is_array($product[$fieldList]))
-                {
+                if(is_array($product[$fieldList])) {
                     $productArrayTmp = [];
                     foreach ($product[$fieldList] as $productDetailKey => $productDetailValue) {
                         $productArrayTmp[$productDetailKey] = $productDetailValue;
                     }
                     $productTmp[$fieldList] = $productArrayTmp;
-                }
-                else
-                {
+                } else {
                     $productTmp[$fieldList]=$product[$fieldList];
                 }
 
 
             }
+
             $products[] = $productTmp;
             $i++;
         }
@@ -118,10 +164,40 @@ class Datalink
     }
 
 
-    public function productPackage()
+    public function simpleProducts($configurableId, $offset=0, $fieldsList=[] , $limit=50)
     {
+        $route = 'buckets/%BUCKET-ID%/products.%RESPONSE%'."?limit=$limit&skip=$offset";
+        $result = $this->doCurl($route);
+
+        $i=0;
+        $products=[];
+        if(count($fieldsList) == 0) $fieldsList = ['id', 'title', 'quantity', 'sku', 'shapeName'];
+
+        foreach ($result['data'] as $product) {
+            $productTmp=[];
+
+            foreach ($fieldsList as $fieldList) {
+
+                if(is_array($product[$fieldList])) {
+                    $productArrayTmp = [];
+                    foreach ($product[$fieldList] as $productDetailKey => $productDetailValue) {
+                        $productArrayTmp[$productDetailKey] = $productDetailValue;
+                    }
+                    $productTmp[$fieldList] = $productArrayTmp;
+                } else {
+                    $productTmp[$fieldList]=$product[$fieldList];
+                }
 
 
+            }
+
+            $products[] = $productTmp;
+            $i++;
+        }
+
+        $result = $products;
+
+        return $result;
     }
 
 }

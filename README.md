@@ -27,49 +27,27 @@ Create an index.php file in root folder of project and insert these code on it.
 ```php
 require __DIR__ . '/vendor/autoload.php';
 use RMIDatalink\Fetch;
+use RMIDatalink\Datalink;
 use RMIDatalink\Enums\ResponseTypes;
+use RMIDatalink\Enums\ResponseProducts;
 
+use \Symfony\Component\VarDumper\Test\VarDumperTestTrait;
 
+$config = [
+	"api-path" => "http://rmiserver.rminno.com:8001/api",
+	"limit" => 50,  																  	//limitation on all requests
+	"access-key" => "z/uWekiobDEedhozKm6JntDkcHoUlmoZ274wMIWDbYZjArc49w0o7f6meAWCSnaQ", //Datalink Access Key
+	"bucket-name" => "faridConfigurableBucket", 										//bucket name
+	"response-type" => ResponseTypes::Json, 											//response type of results
+	"response-products" => ResponseProducts::All, 									    //type of products Just Simples/Just Configurable/ Configurable>Simple
+];
 
-$apiObject = new Fetch("{ TOKEN }",ResponseTypes::Json);
-
-// Set Bucket ID
-$apiObject->setBucketId($apiObject->buckets()[0]->id);
+$apiObject = new Fetch($config);
 
 // required fields
-$fields = ['id', 'title', 'images', 'additionalImages'];
+$fields = ['id', 'title', 'images', 'additionalImages', 'productType'];
 
 // get all products
-$products = $apiObject->products(0, $fields);
-
-// loop on all products > products(offset, fields, limit)
-foreach($products as $product)
-{
-	echo "<br><h1>Product:</h1><br>";
-
-	echo $product['id']."<br>";
-	echo $product['title']."<br>";
-
-	foreach($product['images'] as $image) {
-		echo "<br>";
-		foreach($image as $imageKey=>$imageValue)
-		{
-			echo "<br>$imageKey:$imageValue";
-		}
-
-	}
-
-	foreach($product['additionalImages'] as $image) {
-		echo "<br>";
-		foreach($image as $additionalImageKey=>$additionalImageValue)
-		{
-		    echo "<br>$additionalImageKey:$additionalImageValue";
-		}
-
-	}
-
-	 echo "<br>----------------------Next Product---------------------";
-
-}
+$ConfigurableProducts = $apiObject->configurableProducts(0, $fields);
 
  
