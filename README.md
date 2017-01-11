@@ -36,7 +36,7 @@ use \Symfony\Component\VarDumper\Test\VarDumperTestTrait;
 $config = [
 	"api-path" => "http://rmiserver.rminno.com:8001/api",
 	"limit" => 50,  																  	//limitation on all requests
-	"access-key" => "z/uWekiobDEedhozKm6JntDkcHoUlmoZ274wMIWDbYZjArc49w0o7f6meAWCSnaQ", //Datalink Access Key
+	"access-key" => "z/uWekiobDEedhozKm6JntDkcHoUzKm6JntDkczKm6JntDkcaQ", //Datalink Access Key
 	"bucket-name" => "faridConfigurableBucket", 										//bucket name
 	"response-type" => ResponseTypes::Json, 											//response type of results
 	"response-products" => ResponseProducts::All, 									    //type of products Just Simples/Just Configurable/ Configurable>Simple
